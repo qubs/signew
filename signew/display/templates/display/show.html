@@ -1,0 +1,13 @@
+{% extends "display/base.html" %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<ul class="signew-slides">
+	{% for slide in slide_list %}
+		<li class="signew-slide signew-slide-{{ slide.slide_type }}"{% if slide.slide_type == "URLI" %} style="background-image: url({{ slide.slide_url }});"{% endif %}>
+		</li>
+	{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "display/base.html" %}
+
+{% block content %}
+	<h1>Displays</h1>
+
+	{% if display_list %}
+		<ul>
+			{% for display in display_list %}
+				<li><a href="{% url 'display:show' display.id %}">{{ display.display_name }}</a></li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>No displays are available.</p>
+	{% endif %}
+{% endblock %}
