@@ -1,13 +1,73 @@
 {% extends "display/base.html" %}
 
 {% block scripts %}
+<script type="text/javascript">
+	var currentSlide = 0;
+	var slides = [];
+	var container = "#signew-slides";
+
+	{% for slide in slide_list %}
+		slides.push({
+			"id": "{{ slide.id }}",
+			"name": "{{ slide.slide_name }}",
+			"type": "{{ slide.slide_type }}",
+			"url": "{{ slide.slide_url }}",
+			"data": "{{ slide.slide_data|safe }}",
+			"timing": {{ slide.timing }}
+		});
+	{% endfor %}
+
+	var makeSlide = function (slide) {
+		var slideItem = document.createElement("li");
+		slideItem.setAttribute("class", "signew-slide signew-slide-" + slide.type);
+		slideItem.setAttribute("id", "signew-slide-" + slide.id);
+		if (slide.type == "{{ slide_list.0.URL_IMAGE }}") {
+			slideItem.setAttribute("style", "background-image: url('" + slide.url + "')");
+		} else if (slide.type == "{{ slide_list.0.URL_PAGE }}") {
+			var slideFrame = document.createElement("iframe");
+			slideFrame.setAttribute("class", "signew-slide-iframe");
+			slideFrame.setAttribute("src", slide.url);
+			slideItem.appendChild(slideFrame);
+		} else if (slide.type == "{{ slide_list.0.HOSTED_PAGE }}") {
+			var slideContent = document.createElement("div");
+			slideContent.setAttribute("class", "signew-slide-content");
+			slideContent.append(document.createTextNode(slide.data));
+			slideItem.appendChild(slideContent);
+		}
+
+		return slideItem;
+	}
+
+	var nextSlide = function () {
+		currentSlide++;
+		if(currentSlide == slides.length) {
+			currentSlide = 0;
+		}
+
+		$(container).append(makeSlide(slides[currentSlide]));
+		var $oldSlide = $(container).children('.signew-slide').first();
+		var $newSlide = $(container).children('.signew-slide').last();
+
+		$newSlide.css("left", "100%");
+
+		$oldSlide.animate({ "left": "-100%" }, 1000, function () {
+			$(this).remove();
+		});
+		$newSlide.animate({ "left": "0" }, 1000);
+
+		window.setTimeout(nextSlide, slides[currentSlide].timing);
+	}
+
+	$(document).ready(function () {
+		$(container).append(makeSlide(slides[currentSlide]));
+
+		if(slides.length != 1) {
+			window.setTimeout(nextSlide, slides[currentSlide].timing);
+		}
+	});
+</script>
 {% endblock %}
 
 {% block content %}
-<ul class="signew-slides">
-	{% for slide in slide_list %}
-		<li class="signew-slide signew-slide-{{ slide.slide_type }}"{% if slide.slide_type == "URLI" %} style="background-image: url({{ slide.slide_url }});"{% endif %}>
-		</li>
-	{% endfor %}
-</ul>
+	<ul id="signew-slides"></ul>
 {% endblock %}
