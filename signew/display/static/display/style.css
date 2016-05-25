@@ -5,6 +5,27 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
+a {
+    color: #3f96ee;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+div#signew-logo {
+    position: fixed;
+    right: 40px;
+    bottom: 27px;
+}
+div#signew-logo div#signew-logo-tagline {
+    position: absolute;
+    right: 2px;
+    bottom: 0;
+    font-size: 0.8rem;
+    color: #afafaf;
+}
+
 div#signew-page-content {
     padding: 40px;
 }
@@ -26,13 +47,6 @@ div#signew-page-content ul.signew-display-list li.signew-display-item {
     border: 1px solid #e9e9e9;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-}
-div#signew-page-content ul.signew-display-list li.signew-display-item a {
-    color: #3f96ee;
-    text-decoration: none;
-}
-div#signew-page-content ul.signew-display-list li.signew-display-item a:hover {
-    text-decoration: underline;
 }
 
 ul#signew-slides {
