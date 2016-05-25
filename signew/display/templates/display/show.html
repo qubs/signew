@@ -63,7 +63,6 @@
 
 		var d = new Date();
 
-		//$newSlide.css("left", "100%");
 		$newSlide.css("transform", "translateX(100%)");
 		$newSlide.addClass("active");
 
@@ -72,17 +71,10 @@
 			if(slides[lastSlide].type == "{{ slide_list.0.URL_IMAGE }}" && slides[lastSlide].live) {
 				this.attr("style", "background-image: url('" + slides[lastSlide].url + "?" + d.getTime() + "')");
 			}
-			else if(slides[lastSlide].type == "{{ slide_list.0.HOSTED_IMAGE }}" && slides[lastSlide].live) {
-				this.attr("style", "background-image: url('{{ MEDIA_URL }}" + slides[lastSlide].file + "?" + d.getTime() + "')");
-			}
 
 			this.removeClass("active");
 		}).bind($oldSlide), 1000);
 
-		// $oldSlide.animate({ "left": "-100%" }, 1000, function () {
-		// $oldSlide.animate({ "transform": "translateX(-100%)" }, 1000, function () {
-
-		// });
 		$newSlide.animate({ "left": "0" }, 1000);
 		$newSlide.css({ "transform": "translateX(0)" }, 1000);
 
