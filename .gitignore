@@ -2,3 +2,5 @@ venv
 *.py[cod]
 
 db.sqlite3
+signew/media
+signew/static

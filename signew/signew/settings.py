@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
 
     'djangobower',
+    'sortedm2m',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -66,6 +67,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -124,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = "/%s/static/" % BASE_DIR
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -131,8 +134,16 @@ STATICFILES_FINDERS = [
     'djangobower.finders.BowerFinder',
 ]
 
+
+# Bower
+
 BOWER_COMPONENTS_ROOT = "/%s/components/" % BASE_DIR
 
 BOWER_INSTALLED_APPS = (
     'jquery#1.12',
 )
+
+# Media Files
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = "/%s/media/" % BASE_DIR
