@@ -36,6 +36,8 @@ INSTALLED_APPS = [
 
     'djangobower',
     'sortedm2m',
+    'ckeditor',
+    'ckeditor_uploader',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -147,3 +149,5 @@ BOWER_INSTALLED_APPS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = "/%s/media/" % BASE_DIR
+
+CKEDITOR_UPLOAD_PATH = "uploads/"

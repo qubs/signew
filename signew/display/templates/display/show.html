@@ -14,7 +14,7 @@
 			"type": "{{ slide.slide_type }}",
 			"url": "{{ slide.slide_url }}",
 			"caption": "{{ slide.caption|safe }}",
-			"data": "{{ slide.slide_data|safe }}",
+			"data": "{{ slide.slide_data }}",
 			"file": "{{ slide.slide_file }}",
 			"live": {{ slide.live_load|lower }},
 			"timing": {{ slide.timing }}
@@ -28,23 +28,23 @@
 		if (slide.type == "{{ slide_list.0.URL_IMAGE }}") {
 			slideItem.setAttribute("style", "background-image: url('" + slide.url + "')");
 		} else if(slide.type == "{{ slide_list.0.HOSTED_IMAGE }}") {
-			slideItem.setAttribute("style", "background-image: url('" + {{ MEDIA_URL }} + slide.file + "')");
+			slideItem.setAttribute("style", "background-image: url('{{ MEDIA_URL }}" + slide.file + "')");
 		} else if (slide.type == "{{ slide_list.0.URL_PAGE }}") {
 			var slideFrame = document.createElement("iframe");
 			slideFrame.setAttribute("class", "signew-slide-iframe");
 			slideFrame.setAttribute("src", slide.url);
 			slideItem.appendChild(slideFrame);
 		} else if (slide.type == "{{ slide_list.0.HOSTED_PAGE }}") {
-			var slideContent = document.createElement("div");
-			slideContent.setAttribute("class", "signew-slide-content");
-			slideContent.appendChild(document.createTextNode(slide.data));
-			slideItem.appendChild(slideContent);
+			var slideFrame = document.createElement("iframe");
+			slideFrame.setAttribute("class", "signew-slide-iframe");
+			slideFrame.setAttribute("src", "{{ MEDIA_URL }}" + slide.file);
+			slideItem.appendChild(slideFrame);
 		}
 
 		if (slide.caption && slide.caption != "None") {
 			var slideCaption = document.createElement("div");
 			slideCaption.setAttribute("class", "signew-slide-caption");
-			slideCaption.appendChild(document.createTextNode(slide.caption));
+			slideCaption.innerHTML = slide.caption;
 			slideItem.appendChild(slideCaption);
 		}
 
