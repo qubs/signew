@@ -1,102 +1,39 @@
 {% extends "display/base.html" %}
+{% load staticfiles %}
 
 {% block scripts %}
-<script type="text/javascript">
-	var lastSlide = -1;
-	var currentSlide = 0;
-	var slides = [];
-	var container = "#signew-slides";
+    <script type="text/javascript" src="{% static "display/slideshow.js" %}"></script>
+    <script type="text/javascript">
+        var lastSlide = -1;
+        var currentSlide = 0;
+        var slides = [];
+        var container = "#signew-slides";
 
-	{% for slide in slide_list %}
-		slides.push({
-			"id": "{{ slide.id }}",
-			"name": "{{ slide.slide_name }}",
-			"type": "{{ slide.slide_type }}",
-			"url": "{{ slide.slide_url }}",
-			"caption": "{{ slide.caption|safe }}",
-			"data": "{{ slide.slide_data }}",
-			"file": "{{ slide.slide_file }}",
-			"live": {{ slide.live_load|lower }},
-			"timing": {{ slide.timing }}
-		});
-	{% endfor %}
+        var slideshow = new SignewSlideshow({
+            "container": "#signew-slides",
+            "mediaURL": "{{ MEDIA_URL }}"
+        });
 
-	var makeSlide = function (slide) {
-		var slideItem = document.createElement("li");
-		slideItem.setAttribute("class", "signew-slide signew-slide-" + slide.type);
-		slideItem.setAttribute("id", "signew-slide-" + slide.id);
-		if (slide.type == "{{ slide_list.0.URL_IMAGE }}") {
-			slideItem.setAttribute("style", "background-image: url('" + slide.url + "')");
-		} else if(slide.type == "{{ slide_list.0.HOSTED_IMAGE }}") {
-			slideItem.setAttribute("style", "background-image: url('{{ MEDIA_URL }}" + slide.file + "')");
-		} else if (slide.type == "{{ slide_list.0.URL_PAGE }}") {
-			var slideFrame = document.createElement("iframe");
-			slideFrame.setAttribute("class", "signew-slide-iframe");
-			slideFrame.setAttribute("src", slide.url);
-			slideItem.appendChild(slideFrame);
-		} else if (slide.type == "{{ slide_list.0.HOSTED_PAGE }}") {
-			var slideFrame = document.createElement("iframe");
-			slideFrame.setAttribute("class", "signew-slide-iframe");
-			slideFrame.setAttribute("src", "{{ MEDIA_URL }}" + slide.file);
-			slideItem.appendChild(slideFrame);
-		}
+        {% for slide in slide_list %}
+            slideshow.addSlide({
+                "id": "{{ slide.id }}",
+                "name": "{{ slide.slide_name }}",
+                "type": "{{ slide.slide_type }}",
+                "url": "{{ slide.slide_url }}",
+                "caption": "{{ slide.caption|safe }}",
+                "data": "{{ slide.slide_data }}",
+                "file": "{{ slide.slide_file }}",
+                "live": {{ slide.live_load|lower }},
+                "timing": {{ slide.timing }}
+            });
+        {% endfor %}
 
-		if (slide.caption && slide.caption != "None") {
-			var slideCaption = document.createElement("div");
-			slideCaption.setAttribute("class", "signew-slide-caption");
-			slideCaption.innerHTML = slide.caption;
-			slideItem.appendChild(slideCaption);
-		}
-
-		return slideItem;
-	}
-
-	var nextSlide = function () {
-		lastSlide = currentSlide;
-		currentSlide++;
-		if(currentSlide == slides.length) {
-			currentSlide = 0;
-		}
-
-		var $oldSlide = $(container).children("#signew-slide-" + slides[lastSlide].id.toString()).first();
-		var $newSlide = $(container).children("#signew-slide-" + slides[currentSlide].id.toString()).first();
-
-		var d = new Date();
-
-		$newSlide.css("transform", "translateX(100%)");
-		$newSlide.addClass("active");
-
-		$oldSlide.css("transform", "translateX(-100%)");
-		window.setTimeout((function () {
-			if(slides[lastSlide].type == "{{ slide_list.0.URL_IMAGE }}" && slides[lastSlide].live) {
-				this.attr("style", "background-image: url('" + slides[lastSlide].url + "?" + d.getTime() + "')");
-			}
-
-			this.removeClass("active");
-		}).bind($oldSlide), 1000);
-
-		$newSlide.animate({ "left": "0" }, 1000);
-		$newSlide.css({ "transform": "translateX(0)" }, 1000);
-
-		window.setTimeout(nextSlide, slides[currentSlide].timing);
-	}
-
-	$(document).ready(function () {
-		for(var s in slides) {
-			if(slides.hasOwnProperty(s)) {
-				$(container).append(makeSlide(slides[s]));
-			}
-		}
-
-		$("#signew-slide-" + slides[currentSlide].id).first().addClass("active");
-
-		if(slides.length != 1) {
-			window.setTimeout(nextSlide, slides[currentSlide].timing);
-		}
-	});
-</script>
+        $(document).ready(function () {
+            slideshow.initialize();
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-	<ul id="signew-slides"></ul>
+    <ul id="signew-slides"></ul>
 {% endblock %}
