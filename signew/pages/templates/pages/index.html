@@ -1,1 +1,10 @@
-<h1><code>signew</code> is running</h1>
+{% extends "display/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <h1>Signew is running.</h1>
+    <div id="signew-logo">
+        <a href="https://github.com/qubs/signew/"><img src="{% static "signew-logo.png" %}" width="150"></a>
+        <div id="signew-logo-tagline">by <a href="https://qubs.ca">QUBS</a></div>
+    </div>
+{% endblock %}

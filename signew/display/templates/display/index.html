@@ -1,4 +1,5 @@
 {% extends "display/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
     <h1>Displays</h1>
@@ -16,7 +17,7 @@
     {% endif %}
 
     <div id="signew-logo">
-        <img src="/static/signew-logo.png" width="150">
+        <img src="{% static "signew-logo.png" %}" width="150">
         <div id="signew-logo-tagline">by <a href="https://qubs.ca">QUBS</a></div>
     </div>
 {% endblock %}
