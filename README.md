@@ -11,8 +11,9 @@ This installation guide is currently only for Linux.
 1. If you do not already have it, install [Python 3](https://www.python.org/downloads/).
     * On Ubuntu or similar, required packages can be installed with the following command:
     `sudo apt-get install python3 python-pip3`
-2. Download the source code of `signew` and place it in a directory that is not directly web-accessible.
-3. Open the file `/signew/settings.py` in a text editor.
+2. Download the source code of Signew and place it in a directory that is not directly web-accessible. For example,
+the software could be placed in the user's home directory.
+3. Open the file `/path/to/signew/settings.py` in a text editor (replace `/path/to` with the path to your installation).
 4. Add your own secret key, and make sure debug mode is set to `False` (capitalization is important here).
 
 ## Initial Configuration
@@ -26,14 +27,14 @@ This installation guide is currently only for Linux.
     python manage.py migrate
     python manage.py createsuperuser
     ```
-This last step will prompt you to create an administrative user with a password. THis will be used to sign into the
+This last step will prompt you to create an administrative user with a password. This will be used to sign into the
 administrative portion of the site once configuration is complete.
 3. Finish up the initial configuration with the following:
     ```
     python manage.py collectstatic --noinput
     ```
 
-## Additional Configuration with [nginx](https://www.nginx.com/) and [uWSGI](http://uwsgi-docs.readthedocs.io/)
+## Additional Configuration with [NGINX](https://www.nginx.com/) and [uWSGI](http://uwsgi-docs.readthedocs.io/)
 
 1. Install the Python dev packages with `sudo apt-get install python-dev`.
 2. Install uWSGI globally through `pip` with `sudo pip install uwsgi`.
@@ -59,9 +60,9 @@ administrative portion of the site once configuration is complete.
     chmod-socket = 644
     vacuum = true
     ```
-6. Save and close the file by pressing CTRL-O, enter, then CTRL-X.
-7. Create an upstart script for uWSGI by typing `sudo nano /etc/init/uwsgi.conf`.
-8. Paste the following content into the file, replacing `user` with your login username:
+Save and close the file by pressing CTRL-O, enter, then CTRL-X.
+6. Create an upstart script for uWSGI by typing `sudo nano /etc/init/uwsgi.conf`.
+7. Paste the following content into the file, replacing `user` with your login username:
     ```conf
     description "uWSGI application server in Emperor mode"
 
@@ -73,13 +74,13 @@ administrative portion of the site once configuration is complete.
 
     exec /usr/local/bin/uwsgi --emperor /etc/uwsgi/sites
     ```
-9. Install Nginx with the following command:
+8. Install NGINX with the following command:
     ```shell
     sudo apt-get install nginx
     ```
-10. Create a server configuration file by typing `sudo nano /etc/nginx/sites-available/your.url.com`, replacing
+9. Create a server configuration file by typing `sudo nano /etc/nginx/sites-available/your.url.com`, replacing
 the example URL with your own. We recommend something like `sign.myorg.com`.
-11. Paste in the following content:
+10. Paste in the following content:
     ```
     server {
         listen 80;
@@ -92,50 +93,51 @@ the example URL with your own. We recommend something like `sign.myorg.com`.
         }
     }
     ```
-12. Close and save the file like before.
-13. Run the following command:
+Close and save the file like before.
+11. Run the following command:
     ```shell
     sudo ln -s /etc/nginx/sites-available/your.url.com /etc/nginx/sites-enabled
     ```
-14. Check the Nginx config using the following command:
+12. Check the NGINX config using the following command:
     ```shell
     sudo service nginx configtest
     ```
-15. Restart Nginx and start the uWSGI server:
+13. Restart NGINX and start the uWSGI server:
     ```shell
     sudo service nginx restart
     sudo service uwsgi start
     ```
+
 TODO: Add static and media file stuff, test
 
 ## Additional Configuration with [Apache](https://httpd.apache.org/) and mod_wsgi
 
 1. Install Apache and mod_wsgi with `sudo apt-get install apache2 libapache2-mod-wsgi-py3`
 2. Edit a virtual host file to set up the site. If you just installed Apache, run the following:
-    ```bash
+    ```shell
     sudo nano /etc/apache2/sites-available/000-default.conf
     ```
-3. Add the following content, replacing `. . .` with existing content, `user` with your username, `python3.5` with the
-python version you are using, and the path in the Alias and Directory instructions with the path to the
-`signew` installation:
+3. Add the following content, replacing `. . .` with existing content, `/path/to` with your installation path,
+`python3.5` with the python version you are using, and the path in the Alias and Directory instructions with the path
+to the Signew installation:
     ```
-        <VirtualHost *:80>
-            . . .
+    <VirtualHost *:80>
+        . . .
 
-            Alias /static /home/user/signew/static
-            <Directory /home/user/signew/static>
+        Alias /static /path/to/signew/static
+        <Directory /path/to/signew/static>
+            Require all granted
+        </Directory>
+        <Directory /path/to/signew/signew>
+            <Files wsgi.py>
                 Require all granted
-            </Directory>
-            <Directory /home/user/signew/signew>
-                <Files wsgi.py>
-                    Require all granted
-                </Files>
-            </Directory>
+            </Files>
+        </Directory>
 
-            WSGIDaemonProcess signew python-path=/home/user/signew:/home/user/signew/signewenv/lib/python3.5/site-packages
-            WSGIProcessGroup signew
-            WSGIScriptAlias / /home/user/signew/signew/wsgi.py
-        </VirtualHost>
+        WSGIDaemonProcess signew python-path=/path/to/signew:/path/to/signew/signewenv/lib/python3.5/site-packages
+        WSGIProcessGroup signew
+        WSGIScriptAlias / /path/to/signew/signew/wsgi.py
+    </VirtualHost>
     ```
 4. Save and close the file by pressing CTRL-O, enter, then CTRL-X.
 5. Fix permissions on the site by typing the following commands:
@@ -148,7 +150,8 @@ python version you are using, and the path in the Alias and Directory instructio
     ```shell
     sudo service apache2 restart
     ```
-TODO: Add media file stuff, test
+
+TODO: Add media file stuff, test, alternate vhost
 
 ## Running
 
@@ -157,5 +160,5 @@ To start the Django server, type in the following command (you must be in the ap
 ```shell
 python manage.py runserver
 ```
-To access the administrative portion of the website, you can go to something like `http://yoursite.com/admin/`,
+To access the administrative portion of the website, you can go to something like `http://sign.yoursite.com/admin/`,
 depending on where you installed the software.
