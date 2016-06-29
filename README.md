@@ -81,7 +81,7 @@ Save and close the file by pressing CTRL-O, enter, then CTRL-X.
 9. Create a server configuration file by typing `sudo nano /etc/nginx/sites-available/your.url.com`, replacing
 the example URL with your own. We recommend something like `sign.myorg.com`.
 10. Paste in the following content:
-    ```
+    ```nginx
     server {
         listen 80;
         server_name your.url.com www.your.url.com;
@@ -120,7 +120,7 @@ TODO: Add static and media file stuff, test
 3. Add the following content, replacing `. . .` with existing content, `/path/to` with your installation path,
 `python3.5` with the python version you are using, and the path in the Alias and Directory instructions with the path
 to the Signew installation:
-    ```
+    ```apache
     <VirtualHost *:80>
         . . .
 
