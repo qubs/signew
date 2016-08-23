@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'sortedm2m',
     'ckeditor',
     'ckeditor_uploader',
+    'colorful',
 
     'django.contrib.admin',
     'django.contrib.auth',

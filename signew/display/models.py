@@ -1,6 +1,7 @@
 from django.db import models
 from sortedm2m.fields import SortedManyToManyField
 from ckeditor.fields import RichTextField
+from colorful.fields import RGBColorField
 
 class Slide(models.Model):
     URL_IMAGE = 'URLI'
@@ -19,6 +20,7 @@ class Slide(models.Model):
     slide_url = models.URLField(blank=True, null=True)
     live_load = models.BooleanField(default=False)
     caption = RichTextField(blank=True, null=True)
+    background_color = RGBColorField(blank=True, null=True)
     slide_data = models.TextField(blank=True, null=True)
     slide_file = models.FileField(blank=True, null=True)
     timing = models.PositiveIntegerField(default=5000)
