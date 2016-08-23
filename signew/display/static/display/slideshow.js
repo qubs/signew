@@ -1,6 +1,6 @@
 /*
     Copyright 2016 the Queen's University Biological Station and
-    the Signew Project Authors.
+    the Signew project authors.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -31,10 +31,10 @@ var SignewSlideshow = function (properties) {
 
     this.MEDIA_URL = properties.mediaURL || "/media/";
 
-    this.URL_IMAGE = "URLI"
-    this.URL_PAGE = "URLP"
-    this.HOSTED_IMAGE = "HSTI"
-    this.HOSTED_PAGE = "HSTP"
+    this.URL_IMAGE = "URLI";
+    this.URL_PAGE = "URLP";
+    this.HOSTED_IMAGE = "HSTI";
+    this.HOSTED_PAGE = "HSTP";
 
     this.$oldSlide = null;
     this.$newSlide = null;
@@ -56,21 +56,37 @@ SignewSlideshow.prototype.makeSlide = function (slide) {
     var slideItem = document.createElement("li");
     slideItem.setAttribute("class", "signew-slide signew-slide-" + slide.type);
     slideItem.setAttribute("id", "signew-slide-" + slide.id);
-    if (slide.type == this.URL_IMAGE) {
-        slideItem.setAttribute("style", "background-image: url('" + slide.url + "')");
-    } else if(slide.type == this.HOSTED_IMAGE) {
-        slideItem.setAttribute("style", "background-image: url('" + this.MEDIA_URL + slide.file + "')");
-    } else if (slide.type == this.URL_PAGE) {
-        var slideFrame = document.createElement("iframe");
-        slideFrame.setAttribute("class", "signew-slide-iframe");
-        slideFrame.setAttribute("src", slide.url);
-        slideItem.appendChild(slideFrame);
-    } else if (slide.type == this.HOSTED_PAGE) {
-        var slideFrame = document.createElement("iframe");
-        slideFrame.setAttribute("class", "signew-slide-iframe");
-        slideFrame.setAttribute("src", this.MEDIA_URL + slide.file);
-        slideItem.appendChild(slideFrame);
+
+    var backgroundColor = slide.background;
+    if (!backgroundColor) {
+        backgroundColor = "#000000";
     }
+
+    var backgroundStyle = "background-color: " + slide.background + ";";
+
+    switch (slide.type) {
+        case this.URL_IMAGE:
+            backgroundStyle += "background-image: url('" + slide.url + "')";
+            break;
+        case this.HOSTED_IMAGE:
+            backgroundStyle += "background-image: url('" + this.MEDIA_URL + slide.file + "')";
+            break;
+
+        case this.URL_PAGE:
+            var slideFrame = document.createElement("iframe");
+            slideFrame.setAttribute("class", "signew-slide-iframe");
+            slideFrame.setAttribute("src", slide.url);
+            slideItem.appendChild(slideFrame);
+            break;
+        case this.HOSTED_PAGE:
+            var slideFrame = document.createElement("iframe");
+            slideFrame.setAttribute("class", "signew-slide-iframe");
+            slideFrame.setAttribute("src", this.MEDIA_URL + slide.file);
+            slideItem.appendChild(slideFrame);
+            break;
+    }
+
+    slideItem.setAttribute("style", backgroundStyle);
 
     if (slide.caption && slide.caption != "None") {
         var slideCaption = document.createElement("div");
@@ -88,7 +104,7 @@ SignewSlideshow.prototype.makeSlide = function (slide) {
 SignewSlideshow.prototype.nextSlide = function () {
     this.lastSlide = this.currentSlide;
     this.currentSlide++;
-    if(this.currentSlide == this.slides.length) {
+    if (this.currentSlide == this.slides.length) {
         this.currentSlide = 0;
     }
 
@@ -102,7 +118,7 @@ SignewSlideshow.prototype.nextSlide = function () {
     window.setTimeout((function () {
         var d = new Date();
 
-        if(this.slides[this.lastSlide].type == this.URL_IMAGE && this.slides[this.lastSlide].live) {
+        if (this.slides[this.lastSlide].type == this.URL_IMAGE && this.slides[this.lastSlide].live) {
             this.$oldSlide.attr("style", "background-image: url('" + this.slides[this.lastSlide].url + "?"
                 + d.getTime() + "')");
         }
@@ -121,15 +137,15 @@ SignewSlideshow.prototype.nextSlide = function () {
  * Initializes the signew display slideshow.
  */
 SignewSlideshow.prototype.initialize = function () {
-    for(var s in this.slides) {
-        if(this.slides.hasOwnProperty(s)) {
+    for (var s in this.slides) {
+        if (this.slides.hasOwnProperty(s)) {
             $(this.container).append(this.makeSlide(this.slides[s]));
         }
     }
 
     $("#signew-slide-" + this.slides[this.currentSlide].id).addClass("active");
 
-    if(slides.length != 1) {
+    if (slides.length != 1) {
         // Add a second to the timing for entry transition
         window.setTimeout(this.nextSlide.bind(this), this.slides[this.currentSlide].timing + 1000);
     }
