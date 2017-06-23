@@ -64,7 +64,7 @@ SignewSlideshow.prototype.makeSlide = function (slide) {
     slideItem.setAttribute("id", "signew-slide-" + slide.id);
 
     var backgroundColor = slide.background;
-    if (!backgroundColor) {
+    if (!backgroundColor || backgroundColor == "None") {
         backgroundColor = "#000000";
     }
 
