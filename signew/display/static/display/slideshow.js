@@ -118,9 +118,11 @@ SignewSlideshow.prototype.nextSlide = function () {
     this.$newSlide = $(this.container).children("#signew-slide-" + this.slides[this.currentSlide].id).first();
 
     this.$newSlide.css("transform", "translateX(100%)");
+    this.$newSlide.css("-webkit-transform", "translateX(100%)");
     this.$newSlide.addClass("active");
 
     this.$oldSlide.css("transform", "translateX(-100%)");
+    this.$oldSlide.css("-webkit-transform", "translateX(-100%)");
     window.setTimeout((function () {
         var d = new Date();
 
@@ -134,6 +136,7 @@ SignewSlideshow.prototype.nextSlide = function () {
 
     this.$newSlide.animate({ "left": "0" }, 1000);
     this.$newSlide.css({ "transform": "translateX(0)" }, 1000);
+    this.$newSlide.css({ "-webkit-transform": "translateX(0)" }, 1000);
 
     // Add a second to the timing for entry transition
     window.setTimeout(this.nextSlide.bind(this), this.slides[this.currentSlide].timing + 1000);
