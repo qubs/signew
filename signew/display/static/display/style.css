@@ -75,6 +75,8 @@ ul#signew-slides li.signew-slide {
     background-position: 50% 50%;
     overflow: hidden;
 
+    cursor: none;
+
     /* Trigger GPU rendering */
     -webkit-transform: -webkit-translateZ(0);
     -moz-transform: translateZ(0);
