@@ -81,13 +81,16 @@ ul#signew-slides li.signew-slide {
     -ms-transform: translateZ(0);
     -o-transform: translateZ(0);
     transform: translateZ(0);
-
-    -webkit-transition: transform 1s ease-in-out;
+}
+ul#signew-slides.with-animation li.signew-slide {
+    -webkit-transition: -webkit-transform 1s ease-in-out;
     transition: transform 1s ease-in-out;
 }
 ul#signew-slides li.signew-slide.active {
     display: inline-block;
-    -webkit-transition: transform 1s ease-in-out;
+}
+ul#signew-slides.with-animation li.signew-slide.active {
+    -webkit-transition: -webkit-transform 1s ease-in-out;
     transition: transform 1s ease-in-out;
 }
 

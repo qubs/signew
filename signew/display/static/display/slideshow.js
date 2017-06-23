@@ -31,6 +31,8 @@ var SignewSlideshow = function (properties) {
 
     this.MEDIA_URL = properties.mediaURL || "/media/";
 
+    this.ENABLE_ANIMATIONS = properties.enableAnimations || true;
+
     this.URL_IMAGE = "URLI";
     this.URL_PAGE = "URLP";
     this.HOSTED_IMAGE = "HSTI";
@@ -38,6 +40,10 @@ var SignewSlideshow = function (properties) {
 
     this.$oldSlide = null;
     this.$newSlide = null;
+
+    if (this.ENABLE_ANIMATIONS) {
+        $(this.container).addClass("with-animation");
+    }
 };
 
 /**

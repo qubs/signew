@@ -29,7 +29,8 @@
 
         var slideshow = new SignewSlideshow({
             "container": "#signew-slides",
-            "mediaURL": "{{ MEDIA_URL }}"
+            "mediaURL": "{{ MEDIA_URL }}",
+            "enableAnimations" : false
         });
 
         {% for slide in slide_list %}
