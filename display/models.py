@@ -19,6 +19,7 @@ from sortedm2m.fields import SortedManyToManyField
 from ckeditor.fields import RichTextField
 from colorful.fields import RGBColorField
 
+
 class Slide(models.Model):
     URL_IMAGE = 'URLI'
     URL_PAGE = 'URLP'
@@ -48,8 +49,8 @@ class Slide(models.Model):
 class Display(models.Model):
     display_name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    date_created = models.DateTimeField()
-    date_updated = models.DateTimeField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
     slides = SortedManyToManyField(Slide)
 
     def __str__(self):
