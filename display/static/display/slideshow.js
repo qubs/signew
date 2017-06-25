@@ -68,7 +68,8 @@ SignewSlideshow.prototype.makeSlide = function (slide) {
         backgroundColor = "#000000";
     }
 
-    var backgroundStyle = "background-color: " + slide.background + ";";
+    var backgroundStyle = "background-color: " + backgroundColor + ";";
+    var slideFrame;
 
     switch (slide.type) {
         case this.URL_IMAGE:
@@ -79,13 +80,13 @@ SignewSlideshow.prototype.makeSlide = function (slide) {
             break;
 
         case this.URL_PAGE:
-            var slideFrame = document.createElement("iframe");
+            slideFrame = document.createElement("iframe");
             slideFrame.setAttribute("class", "signew-slide-iframe");
             slideFrame.setAttribute("src", slide.url);
             slideItem.appendChild(slideFrame);
             break;
         case this.HOSTED_PAGE:
-            var slideFrame = document.createElement("iframe");
+            slideFrame = document.createElement("iframe");
             slideFrame.setAttribute("class", "signew-slide-iframe");
             slideFrame.setAttribute("src", this.MEDIA_URL + slide.file);
             slideItem.appendChild(slideFrame);
@@ -139,7 +140,7 @@ SignewSlideshow.prototype.nextSlide = function () {
     this.$newSlide.css({ "-webkit-transform": "translateX(0)" }, 1000);
 
     // Add a second to the timing for entry transition
-    window.setTimeout(this.nextSlide.bind(this), this.slides[this.currentSlide].timing + 1000);
+    window.setTimeout(this.nextSlide.bind(this), this.slides[this.currentSlide]["timing"] + 1000);
 };
 
 /**
