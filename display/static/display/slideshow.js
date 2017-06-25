@@ -20,7 +20,7 @@
 /**
  * Creates the signew display slideshow object.
  * @constructor
- * @param {Object} A list of properties to initialize the slideshow object with.
+ * @param {object} properties - A list of properties to initialize the slideshow object with.
  */
 var SignewSlideshow = function (properties) {
     this.container = properties.container || "#signew-slides";
@@ -48,15 +48,15 @@ var SignewSlideshow = function (properties) {
 
 /**
  * Adds a slide to the signew display slideshow.
- * @param {Object} Slide to add to the display's show.
+ * @param {object} slide - Slide to add to the display's show.
  */
 SignewSlideshow.prototype.addSlide = function (slide) {
     this.slides.push(slide);
 };
 
 /**
- * @param  {Object} The slide object to use to build the markup.
- * @return {Element} The slide element to add to the DOM.
+ * @param  {object} slide - The slide object to use to build the markup.
+ * @return {Element} - The slide element to add to the DOM.
  */
 SignewSlideshow.prototype.makeSlide = function (slide) {
     var slideItem = document.createElement("li");
