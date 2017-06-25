@@ -23,15 +23,15 @@
  * @param {object} properties - A list of properties to initialize the slideshow object with.
  */
 var SignewSlideshow = function (properties) {
-    this.container = properties.container || "#signew-slides";
-    this.slides = properties.slides || [];
+    this.container = properties["container"] || "#signew-slides";
+    this.slides = properties["slides"] || [];
 
     this.lastSlide = -1;
     this.currentSlide = 0;
 
-    this.MEDIA_URL = properties.mediaURL || "/media/";
+    this.MEDIA_URL = properties["mediaURL"] || "/media/";
 
-    this.ENABLE_ANIMATIONS = properties.enableAnimations || true;
+    this.ENABLE_ANIMATIONS = properties["enableAnimations"] || true;
 
     this.URL_IMAGE = "URLI";
     this.URL_PAGE = "URLP";
@@ -64,7 +64,7 @@ SignewSlideshow.prototype.makeSlide = function (slide) {
     slideItem.setAttribute("id", "signew-slide-" + slide.id);
 
     var backgroundColor = slide.background;
-    if (!backgroundColor || backgroundColor == "None") {
+    if (!backgroundColor || backgroundColor === "None") {
         backgroundColor = "#000000";
     }
 
@@ -94,7 +94,7 @@ SignewSlideshow.prototype.makeSlide = function (slide) {
 
     slideItem.setAttribute("style", backgroundStyle);
 
-    if (slide.caption && slide.caption != "None") {
+    if (slide.caption && slide.caption !== "None") {
         var slideCaption = document.createElement("div");
         slideCaption.setAttribute("class", "signew-slide-caption");
         slideCaption.innerHTML = slide.caption;
@@ -110,7 +110,7 @@ SignewSlideshow.prototype.makeSlide = function (slide) {
 SignewSlideshow.prototype.nextSlide = function () {
     this.lastSlide = this.currentSlide;
     this.currentSlide++;
-    if (this.currentSlide == this.slides.length) {
+    if (this.currentSlide === this.slides.length) {
         this.currentSlide = 0;
     }
 
@@ -126,8 +126,8 @@ SignewSlideshow.prototype.nextSlide = function () {
     window.setTimeout((function () {
         var d = new Date();
 
-        if (this.slides[this.lastSlide].type == this.URL_IMAGE && this.slides[this.lastSlide].live) {
-            this.$oldSlide.attr("style", "background-image: url('" + this.slides[this.lastSlide].url + "?"
+        if (this.slides[this.lastSlide].type === this.URL_IMAGE && this.slides[this.lastSlide].live) {
+            this.$oldSlide.attr("style", "background-image: url('" + this.slides[this.lastSlide]["url"] + "?"
                 + d.getTime() + "')");
         }
 
@@ -154,8 +154,8 @@ SignewSlideshow.prototype.initialize = function () {
 
     $("#signew-slide-" + this.slides[this.currentSlide].id).addClass("active");
 
-    if (slides.length != 1) {
+    if (this.slides.length !== 1) {
         // Add a second to the timing for entry transition
-        window.setTimeout(this.nextSlide.bind(this), this.slides[this.currentSlide].timing + 1000);
+        window.setTimeout(this.nextSlide.bind(this), this.slides[this.currentSlide]["timing"] + 1000);
     }
 };
