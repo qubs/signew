@@ -14,11 +14,18 @@
 #    limitations under the License.
 
 
+import hashlib
+
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 
 from .models import Display, Slide
+
+
+def hash_display_slides(display_slides):
+    return hashlib.sha256(str(list(display_slides)).encode('utf-8')).hexdigest()
+
 
 def index(request):
     displays = Display.objects.all()
@@ -29,3 +36,11 @@ def show(request, display_id):
     display = Display.objects.get(pk=display_id)
     context = { 'display': display, 'slide_list': display.slides.all() }
     return render(request, 'display/show.html', context)
+
+
+def show_hash(request, display_id):
+    display = Display.objects.get(pk=display_id)
+    return JsonResponse({
+        'display': display.id,
+        'hash': hash_display_slides(display.slides.values())
+    })

@@ -21,4 +21,5 @@ app_name = 'display'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^(?P<display_id>[0-9]+)/$', views.show, name='show'),
+    url(r'^(?P<display_id>[0-9]+)/hash/$', views.show_hash, name='show-hash'),
 ]
