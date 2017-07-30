@@ -26,6 +26,7 @@
         var currentSlide = 0;
         var slides = [];
         var container = "#signew-slides";
+        var showHash = "{{ hash|escapejs }}";
 
         var slideshow = new SignewSlideshow({
             "container": "#signew-slides",
@@ -50,6 +51,14 @@
 
         $(document).ready(function () {
             slideshow.initialize();
+
+            window.setInterval(function () {
+                $.get(window.location.href + 'hash/', function (data) {
+                   if (data['hash'] !== showHash) {
+                        window.location.reload(true);
+                   }
+                });
+            }, 60 * 1000);
         });
     </script>
 {% endblock %}
