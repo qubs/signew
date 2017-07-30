@@ -29,12 +29,19 @@ def hash_display_slides(display_slides):
 
 def index(request):
     displays = Display.objects.all()
-    context = { 'display_list': displays }
+    context = {
+        'display_list': displays
+    }
     return render(request, 'display/index.html', context)
+
 
 def show(request, display_id):
     display = Display.objects.get(pk=display_id)
-    context = { 'display': display, 'slide_list': display.slides.all() }
+    context = {
+        'display': display,
+        'slide_list': display.slides.all(),
+        'hash': hash_display_slides(display.slides.values())
+    }
     return render(request, 'display/show.html', context)
 
 
