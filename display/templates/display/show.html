@@ -25,11 +25,11 @@
         var lastSlide = -1;
         var currentSlide = 0;
         var slides = [];
-        var container = "#signew-slides";
-        var showHash = "{{ hash|escapejs }}";
+        const container = "#signew-slides";
+        const showHash = "{{ hash|escapejs }}";
 
         var slideshow = new SignewSlideshow({
-            "container": "#signew-slides",
+            "container": container,
             "mediaURL": "{{ MEDIA_URL }}",
             "enableAnimations" : false
         });
