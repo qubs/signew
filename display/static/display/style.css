@@ -58,27 +58,28 @@ ul#signew-slides {
     top: 0; bottom: 0; left: 0; right: 0;
 
     background-color: black;
+    cursor: none;
 
     white-space: nowrap;
 
     transition: left 0.5s;
 }
 
+/*noinspection CssOptimizeSimilarProperties*/
 ul#signew-slides li.signew-slide {
-    display: none;
+    display: inline-block;
     position: absolute;
     top: 0; bottom: 0; left: 0;
     width: 100%;
 
+    opacity: 0;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     overflow: hidden;
 
-    cursor: none;
-
     /* Trigger GPU rendering */
-    -webkit-transform: -webkit-translateZ(0);
+    -webkit-transform: translateZ(0);
     -moz-transform: translateZ(0);
     -ms-transform: translateZ(0);
     -o-transform: translateZ(0);
@@ -89,7 +90,7 @@ ul#signew-slides.with-animation li.signew-slide {
     transition: transform 1s ease-in-out;
 }
 ul#signew-slides li.signew-slide.active {
-    display: inline-block;
+    opacity: 1;
 }
 ul#signew-slides.with-animation li.signew-slide.active {
     -webkit-transition: -webkit-transform 1s ease-in-out;
